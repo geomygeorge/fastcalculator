@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">FAST</string>
+    <string name="tab_text_1">Urban</string>
+    <string name="tab_text_2">Semi Urban</string>
+    <string name="tab_text_3">Rural</string>
+    <string name="loan_amount">Loan Amount \u20B9</string>
+    <string name="interest_rate">Interest Rate %</string>
+    <string name="veh_loan_eligb">Vehicle Loan Eligibility</string>
+    <string name="loan_tenure">Loan Tenure YY</string>
+    <string name="obligations_txt">Obligations \u20B9</string>
+    <string name="net_income">Net Income \u20B9</string>
+    <string name="veh_value">Vehicle Value \u20B9</string>
+    <string name="calculate">Calculate</string>
+    <string name="save_btn">Save</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="home_loan">Home loan \u20B9</string>
+    <string name="personal_loan">Personal loan \u20B9</string>
+    <string name="others_loan">Others \u20B9</string>
+    <string name="title_activity_result">Result</string>
+    <string name="result_foir">FOIR :</string>
+    <string name="result_takehome">Take home :</string>
+    <string name="result_ltvlable">LTV :</string>
+    <string name="result_emi">EMI :</string>
+    <string name="result_location">Location :</string>
+    <string name="result_eligible_yes">Eligible</string>
+    <string name="result_eligible_no">Not Eligible</string>
+    <string name="result_deviation_yes">Apply deviation</string>
+    <string name="result_deviation_no">Remove deviation</string>
+    <string name="action_settings">Settings</string>
+    <string name="min_take_home">Minimum Take Home</string>
+
+
+
+
+</resources>

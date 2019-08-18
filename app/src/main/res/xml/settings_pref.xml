@@ -1,0 +1,48 @@
+<PreferenceScreen
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+>
+
+    <PreferenceCategory
+            app:key="urban_category"
+            app:title="@string/tab_text_1"
+
+            >
+
+        <EditTextPreference
+                app:key="urban_takehome"
+                app:title="@string/min_take_home"
+                app:summary="20000"
+                app:defaultValue = "20000"
+                android:digits="0123456789"
+                />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:key="semi_urban_category"
+            app:title="@string/tab_text_2">
+
+        <EditTextPreference
+                app:key="semi_urban_takehome"
+                app:title="@string/min_take_home"
+                app:summary="15000"
+                app:defaultValue = "15000"
+                inputType="number"/>
+
+    </PreferenceCategory>
+    <PreferenceCategory
+            app:key="rural_category"
+            app:title="@string/tab_text_3">
+
+        <EditTextPreference
+                app:key="rural_takehome"
+                app:title="@string/min_take_home"
+                app:summary="15000"
+                app:defaultValue = "15000"
+                inputType="number"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
+

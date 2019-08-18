@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:id="@+id/constraintLayout"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context=".ui.main.PlaceholderFragment">
+
+
+    <TextView
+            android:text="@string/veh_loan_eligb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vleText"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp" app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <TextView
+            android:text="@string/veh_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/main_text_size"
+            android:layout_marginTop="28dp"
+            app:layout_constraintTop_toBottomOf="@+id/vleText" android:id="@+id/vvalueTv"
+            app:layout_constraintStart_toStartOf="@id/leftGuide" app:layout_constraintHorizontal_bias="0.0"
+    />
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/vValueEt"
+            app:layout_constraintStart_toEndOf="@id/guidelCenter"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintBaseline_toBaselineOf="@+id/vvalueTv"/>
+
+    <TextView
+            android:text="@string/loan_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/main_text_size"
+            android:layout_marginTop="35dp"
+            app:layout_constraintTop_toBottomOf="@+id/vvalueTv" android:id="@+id/lAmountTxt"
+            app:layout_constraintStart_toStartOf="@id/leftGuide" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/lAmountInp"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/lAmountInp"
+            app:layout_constraintStart_toEndOf="@id/guidelCenter"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintBaseline_toBaselineOf="@+id/lAmountTxt"/>
+    <TextView
+            android:text="@string/interest_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/interestTxt"
+            android:textSize="@dimen/main_text_size"
+            android:layout_marginTop="35dp" app:layout_constraintTop_toBottomOf="@+id/lAmountTxt"
+            app:layout_constraintStart_toEndOf="@id/leftGuide"/>
+    <EditText
+            android:layout_width="60dp"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:id="@+id/intrEdTxt" app:layout_constraintStart_toEndOf="@id/guidelCenter"
+            app:layout_constraintBaseline_toBaselineOf="@+id/interestTxt"
+            android:background="@android:drawable/edit_text" android:inputType="numberDecimal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+    />
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/leftGuide"
+                                          android:orientation="vertical"
+                                          app:layout_constraintGuide_percent=".05"/>
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guidelCenter"
+                                          android:orientation="vertical"
+                                          app:layout_constraintGuide_percent="0.50121653"/>
+    <android.support.constraint.Barrier android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                        android:id="@+id/barrier" app:barrierDirection="left"
+                                        tools:layout_editor_absoluteX="411dp"/>
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guidelineRight"
+                                          android:orientation="vertical"
+                                          app:layout_constraintGuide_percent="0.95"/>
+    <TextView
+            android:text="@string/loan_tenure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/tenureTv" app:layout_constraintLeft_toRightOf="@id/leftGuide"
+            android:textSize="@dimen/main_text_size"
+            app:layout_constraintTop_toBottomOf="@id/interestTxt" android:layout_marginTop="35dp"/>
+    <EditText
+            android:layout_width="60dp"
+            android:layout_height="45dp"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/tenureEdTxt"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tenureTv"
+            android:background="@android:drawable/edit_text" tools:layout_constraintLeft_toRightOf="@id/guidelCenter"
+            app:layout_constraintStart_toEndOf="@id/guidelCenter"
+    />
+    <TextView
+            android:text="@string/obligations_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/obliTv"
+            android:textSize="@dimen/main_text_size"
+            app:layout_constraintTop_toBottomOf="@id/tenureTv" android:layout_marginTop="35dp"
+            app:layout_constraintLeft_toRightOf="@id/leftGuide"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/obligationEdTxt"
+            android:focusable="false"
+            app:layout_constraintLeft_toRightOf="@id/guidelCenter"
+            app:layout_constraintRight_toLeftOf="@id/guidelineRight"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintBaseline_toBaselineOf="@+id/obliTv"/>
+    <TextView
+            android:text="@string/net_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/obliTv" android:layout_marginTop="35dp"
+            android:id="@+id/incomeTv" app:layout_constraintLeft_toRightOf="@id/leftGuide"
+            android:textSize="@dimen/main_text_size"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:inputType="number"
+            android:ems="10"
+            app:layout_constraintLeft_toRightOf="@id/guidelCenter"
+            app:layout_constraintRight_toLeftOf="@id/guidelineRight"
+            android:id="@+id/netIncomeEt"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintBaseline_toBaselineOf="@+id/incomeTv"/>
+
+    <Button
+            android:id="@+id/calculateBtn"
+            android:text="@string/calculate"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            app:layout_constraintTop_toBottomOf="@id/valErrorTV"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorFedBlue"
+            android:layout_width="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_height="wrap_content" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/valErrorTV"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/incomeTv"
+            android:text="Please fill mandatory fields"
+            android:textColor="@android:color/holo_red_dark"/>
+
+</android.support.constraint.ConstraintLayout>
