@@ -63,9 +63,15 @@ class PlaceholderFragment : Fragment() {
 
         val obligationEdtTxt: EditText = root.findViewById(R.id.obligationEdTxt)
 
+
+        var homeLoanVal = 0
+        var perLoanVal = 0
+        var othersVal = 0
+
         obligationEdtTxt.setOnClickListener {view ->
 
             //Inflate the dialog with custom view
+
 
             context?.let { context ->
 
@@ -73,6 +79,10 @@ class PlaceholderFragment : Fragment() {
                 val homeLoan: EditText = mDialogView.findViewById(R.id.homeLoanEt)
                 val perLoan: EditText = mDialogView.findViewById(R.id.perLoanEt)
                 val others:EditText = mDialogView.findViewById(R.id.othersEt)
+
+                homeLoan.setText(homeLoanVal.toString())
+                perLoan.setText(perLoanVal.toString())
+                others.setText(othersVal.toString())
 
                 //AlertDialogBuilder
                 val mBuilder = AlertDialog.Builder(context)
@@ -87,11 +97,14 @@ class PlaceholderFragment : Fragment() {
                     mAlertDialog.dismiss()
                     //get text from EditTexts of custom layout
 
-                    val homeLoan = if (homeLoan.text.toString() != "") homeLoan.text.toString().toInt() else 0
+                    /*val homeLoan = if (homeLoan.text.toString() != "") homeLoan.text.toString().toInt() else 0
                     val perLoan = if (perLoan.text.toString() != "") perLoan.text.toString().toInt() else 0
-                    val others = if (others.text.toString() != "") others.text.toString().toInt() else 0
+                    val others = if (others.text.toString() != "") others.text.toString().toInt() else 0*/
+                    homeLoanVal = if (homeLoan.text.toString() != "") homeLoan.text.toString().toInt() else 0
+                    perLoanVal = if (perLoan.text.toString() != "") perLoan.text.toString().toInt() else 0
+                    othersVal = if (others.text.toString() != "") others.text.toString().toInt() else 0
 
-                    val totalObligations = homeLoan + perLoan + others
+                    val totalObligations = homeLoanVal + perLoanVal + othersVal
 
                     //set the input text in TextView
                     obligationEdtTxt.setText(totalObligations.toString())
@@ -101,6 +114,11 @@ class PlaceholderFragment : Fragment() {
                     //dismiss dialog
                     mAlertDialog.dismiss()
                     obligationEdtTxt.setText("0")
+
+                    //Reset saved values of existing obligations
+                    homeLoanVal = 0
+                    perLoanVal = 0
+                    othersVal = 0
                 }
             }
 
@@ -161,7 +179,7 @@ class PlaceholderFragment : Fragment() {
                 gd.setColor(Color.parseColor("#00ffffff"))
 
                 // Set a border for the gradient drawable
-                gd.setStroke(4, Color.RED)
+                gd.setStroke(3, resources.getColor(R.color.colorRed))
 
                 for (item in fieldsToHighlight) {
 
@@ -181,7 +199,7 @@ class PlaceholderFragment : Fragment() {
             if (fieldsToSetDefault.size > 0) {
 
                 for (item in fieldsToSetDefault) {
-                    item.setBackgroundResource(android.R.drawable.editbox_background)
+                    item.setBackgroundResource(android.R.drawable.edit_text)
                 }
             }
 

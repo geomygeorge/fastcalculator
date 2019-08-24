@@ -2,7 +2,6 @@ package com.geomy.fast
 
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
@@ -10,7 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.geomy.fast.ui.main.SectionsPagerAdapter
 import android.content.Intent
-import android.util.Log
+import android.widget.EditText
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,17 +25,30 @@ class MainActivity : AppCompatActivity() {
         val fab: FloatingActionButton = findViewById(R.id.fab)
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
-
-
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+
+            resetForm()
         }
     }
-    // Method to set Visibility of Text.
-    private fun setTextVisible(display_text: Boolean) {
 
+    private fun resetForm() {
+
+        val vehicleValEt: EditText = findViewById(R.id.vValueEt)
+        val loanAmntEt: EditText = findViewById(R.id.lAmountInp)
+        val interestRateEt: EditText = findViewById(R.id.intrEdTxt)
+        val loanTenureEt: EditText = findViewById(R.id.tenureEdTxt)
+        val obligationsEt: EditText = findViewById(R.id.obligationEdTxt)
+        val netIncomeEt: EditText = findViewById(R.id.netIncomeEt)
+
+        vehicleValEt.setText("")
+        loanAmntEt.setText("")
+        interestRateEt.setText("")
+        loanTenureEt.setText("")
+        obligationsEt.setText("")
+        netIncomeEt.setText("")
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)

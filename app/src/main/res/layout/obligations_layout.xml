@@ -68,7 +68,7 @@
 
 
         <TextView
-                android:text="@string/personal_loan"
+                android:text="@string/others_loan"
                 android:textSize="@dimen/main_text_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
