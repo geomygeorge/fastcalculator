@@ -4,42 +4,47 @@
 
     <PreferenceCategory
             app:key="urban_category"
-            app:title="@string/tab_text_1"
-
+            app:title="@string/min_take_home"
             >
 
         <EditTextPreference
                 app:key="urban_takehome"
-                app:title="@string/min_take_home"
+                app:title="@string/tab_text_1"
                 app:summary="20000"
                 app:defaultValue = "20000"
                 android:digits="0123456789"
                 />
 
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-            app:key="semi_urban_category"
-            app:title="@string/tab_text_2">
-
         <EditTextPreference
                 app:key="semi_urban_takehome"
-                app:title="@string/min_take_home"
+                app:title="@string/tab_text_2"
                 app:summary="15000"
                 app:defaultValue = "15000"
                 inputType="number"/>
 
-    </PreferenceCategory>
-    <PreferenceCategory
-            app:key="rural_category"
-            app:title="@string/tab_text_3">
-
         <EditTextPreference
                 app:key="rural_takehome"
-                app:title="@string/min_take_home"
+                app:title="@string/tab_text_3"
                 app:summary="15000"
                 app:defaultValue = "15000"
+                inputType="number"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+
+            app:title="@string/salary_slabs">
+
+        <EditTextPreference
+                app:key="salary_slab_1"
+                app:title="@string/salary_slab_1"
+                app:summary="5"
+                app:defaultValue = "5"
+                inputType="number"/>
+        <EditTextPreference
+                app:key="salary_slab_2"
+                app:title="@string/salary_slab_2"
+                app:summary="12"
+                app:defaultValue = "12"
                 inputType="number"/>
 
     </PreferenceCategory>

@@ -6,7 +6,7 @@
     <string name="loan_amount">Loan Amount \u20B9</string>
     <string name="interest_rate">Interest Rate %</string>
     <string name="veh_loan_eligb">Vehicle Loan Eligibility</string>
-    <string name="loan_tenure">Loan Tenure YY</string>
+    <string name="loan_tenure">Loan Tenure MM</string>
     <string name="obligations_txt">Obligations \u20B9</string>
     <string name="net_income">Net Income \u20B9</string>
     <string name="veh_value">Vehicle Value \u20B9</string>
@@ -27,7 +27,11 @@
     <string name="result_deviation_yes">Apply deviation</string>
     <string name="result_deviation_no">Remove deviation</string>
     <string name="action_settings">Settings</string>
-    <string name="min_take_home">Minimum Take Home</string>
+    <string name="min_take_home">Minimum Take Home(\u20B9)</string>
+    <string name="emi_error">Error in calculating EMI</string>
+    <string name="salary_slabs">FOIR Salary slabs (Lacs)</string>
+    <string name="salary_slab_1">Slab 1</string>
+    <string name="salary_slab_2">Slab 2</string>
 
 
 

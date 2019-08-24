@@ -10,7 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.geomy.fast.ui.main.SectionsPagerAdapter
 import android.content.Intent
-
+import android.util.Log
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         tabs.setupWithViewPager(viewPager)
         val fab: FloatingActionButton = findViewById(R.id.fab)
         setSupportActionBar(findViewById(R.id.my_toolbar))
-
 
 
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
@@ -19,7 +20,7 @@ import com.geomy.fast.ResultActivity
 import kotlinx.android.synthetic.main.obligations_layout.view.*
 import android.graphics.drawable.GradientDrawable
 import android.graphics.Color
-import android.support.v4.content.res.ResourcesCompat
+import android.util.Log
 
 /**
  * A placeholder fragment containing a simple view.
@@ -28,11 +29,21 @@ class PlaceholderFragment : Fragment() {
 
     private lateinit var pageViewModel: PageViewModel
 
+    private var TAG = "FAST"
+
+    private var locality = 1
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate")
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java).apply {
-            setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
+
+            locality = arguments?.getInt(ARG_SECTION_NUMBER) ?: 1
+            setIndex(locality)
+
+            Log.d(TAG, "Location Index: " + locality)
         }
+
 
 
     }
@@ -45,7 +56,10 @@ class PlaceholderFragment : Fragment() {
         //val textView: TextView = root.findViewById(R.id.section_label)
         pageViewModel.text.observe(this, Observer<String> {
             //textView.text = it
+            Log.d(TAG, "onCreateView Location Index: " + it)
+
         })
+
 
         val obligationEdtTxt: EditText = root.findViewById(R.id.obligationEdTxt)
 
@@ -91,6 +105,8 @@ class PlaceholderFragment : Fragment() {
             }
 
         }
+
+
 
         fun validateForm(): Boolean {
 
@@ -180,6 +196,8 @@ class PlaceholderFragment : Fragment() {
         }
         //Collect form data for result activity
 
+        val myPage: ViewPager  = activity!!.findViewById(R.id.view_pager)
+
 
         //Launch result activity
 
@@ -191,6 +209,23 @@ class PlaceholderFragment : Fragment() {
             if(validateForm()) {
                 activity?.let{
                     val intent = Intent (it, ResultActivity::class.java)
+                    //Load form values into Intent, to access in Result activity
+
+                    val vehicleValEt: EditText = root.findViewById(R.id.vValueEt)
+                    val loanAmntEt: EditText = root.findViewById(R.id.lAmountInp)
+                    val interestRateEt: EditText = root.findViewById(R.id.intrEdTxt)
+                    val loanTenureEt: EditText = root.findViewById(R.id.tenureEdTxt)
+                    val obligationsEt: EditText = root.findViewById(R.id.obligationEdTxt)
+                    val netIncomeEt: EditText = root.findViewById(R.id.netIncomeEt)
+
+                    intent.putExtra("VEHICLE_VALUE", vehicleValEt.text.toString())
+                    intent.putExtra("LOAN_AMNT", loanAmntEt.text.toString())
+                    intent.putExtra("INTEREST_RATE", interestRateEt.text.toString())
+                    intent.putExtra("LOAN_TENURE", loanTenureEt.text.toString())
+                    intent.putExtra("OBLIGATIONS", obligationsEt.text.toString())
+                    intent.putExtra("NET_INCOME", netIncomeEt.text.toString())
+                    intent.putExtra("LOCATION", myPage.currentItem)
+
                     it.startActivity(intent)
                 }
 
@@ -216,6 +251,8 @@ class PlaceholderFragment : Fragment() {
          */
         @JvmStatic
         fun newInstance(sectionNumber: Int): PlaceholderFragment {
+
+            Log.d("FAST", "sectionNumber: " + sectionNumber)
             return PlaceholderFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_SECTION_NUMBER, sectionNumber)
