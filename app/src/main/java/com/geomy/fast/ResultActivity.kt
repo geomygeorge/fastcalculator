@@ -45,7 +45,11 @@ class ResultActivity : AppCompatActivity() {
     var net_income = "0"
     var location = 0
 
+    val FOIR_SLAB_1 = 55
+    val FOIR_SLAB_2 = 60
+    val FOIR_SLAB_3 = 65
     val FOIR_DEVIATION = 10
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
@@ -106,10 +110,10 @@ class ResultActivity : AppCompatActivity() {
 
 
         var foir = 0.0
+        val totalOligations = emi + obligations.toInt()
         try {
 
-            val total_obligations = emi + obligations.toInt()
-            foir = calculateFOIR(total_obligations, net_income.toDouble())
+            foir = calculateFOIR(totalOligations, net_income.toDouble())
 
         } catch (e: Exception) {
 
@@ -127,17 +131,21 @@ class ResultActivity : AppCompatActivity() {
             isFOIRElgbl = checkFOIREligibility(net_income.toInt(), foir)
         }
 
-        val isTakeHomeElgbl = checkTakeHomeEligibility(net_income.toInt(), location)
+        val isTakeHomeElgbl = checkTakeHomeEligibility(net_income.toInt(), totalOligations, location)
 
         val ltv = calculateLTV(vehicle_value.toDouble(), loan_amnt.toDouble())
 
-        setResults(foir, ltv, isFOIRElgbl, isTakeHomeElgbl, emi, net_income.toDouble(), location)
+        setResults(foir, ltv, emi
+            , net_income.toDouble(),
+            location, totalOligations)
+
+        setLoanEligibilityResults(isFOIRElgbl, isTakeHomeElgbl)
 
     }
 
     private fun checkFOIREligibility(net_income: Int, foir: Double) : Boolean {
 
-        val annual_income =  net_income * 12 // This is an assumption. Need to check business, whether annual salary need to consider here.
+        val annual_income =  net_income * 12
         var foir_eligibility = false
 
         //RULE #1
@@ -148,7 +156,7 @@ class ResultActivity : AppCompatActivity() {
 
         if (annual_income <= SALARY_SLAB_1) {
 
-            if (foir <= 55) {
+            if (foir <= FOIR_SLAB_1) {
 
                 foir_eligibility = true
             }
@@ -156,13 +164,13 @@ class ResultActivity : AppCompatActivity() {
 
         } else if ((annual_income > SALARY_SLAB_1) and (annual_income <= SALARY_SLAB_2)) {
 
-            if (foir <= 60) {
+            if (foir <= FOIR_SLAB_2) {
 
                 foir_eligibility = true
             }
         } else {
 
-            if (foir <= 65) {
+            if (foir <= FOIR_SLAB_3) {
 
                 foir_eligibility = true
             }
@@ -173,7 +181,7 @@ class ResultActivity : AppCompatActivity() {
 
     private fun checkFOIREligibilityWithDeviation(net_income: Int, foir: Double) : Boolean {
 
-        val annual_income =  net_income * 12 // This is an assumption. Need to check business, whether annual salary need to consider here.
+        val annual_income =  net_income * 12
         var foir_eligibility = false
 
         //RULE - Increase FOIR by 10%
@@ -184,7 +192,7 @@ class ResultActivity : AppCompatActivity() {
 
         if (annual_income <= SALARY_SLAB_1) {
 
-            if (foir <= 65) {
+            if (foir <= (FOIR_SLAB_1 + FOIR_DEVIATION)) {
 
                 foir_eligibility = true
             }
@@ -192,13 +200,13 @@ class ResultActivity : AppCompatActivity() {
 
         } else if ((annual_income > SALARY_SLAB_1) and (annual_income <= SALARY_SLAB_2)) {
 
-            if (foir <= 70) {
+            if (foir <= (FOIR_SLAB_2 + FOIR_DEVIATION)) {
 
                 foir_eligibility = true
             }
         } else {
 
-            if (foir <= 75) {
+            if (foir <= (FOIR_SLAB_3 + FOIR_DEVIATION)) {
 
                 foir_eligibility = true
             }
@@ -210,7 +218,8 @@ class ResultActivity : AppCompatActivity() {
     /**
      *
      */
-    private fun checkTakeHomeEligibility(net_income: Int, location: Int) : Boolean {
+    private fun checkTakeHomeEligibility(income: Int, totalOligations: Double,
+                                         location: Int) : Boolean {
 
 
         var min_takehome_eligibility = false
@@ -221,22 +230,23 @@ class ResultActivity : AppCompatActivity() {
         //Semi Urban - 15K (Location Index = 1)
         //Urban - 20K (Location Index = 0)
 
+        val actualIncome = income - totalOligations
         if (location == URBAN_LOC_INDEX) {
 
-            if(net_income >= MIN_TH_URBAN) {
+            if(actualIncome >= MIN_TH_URBAN) {
 
                 min_takehome_eligibility = true
             }
 
         } else if (location == SEMIURBAN_LOC_INDEX){
 
-            if(net_income >= MIN_TH_SEMIURBAN) {
+            if(actualIncome >= MIN_TH_SEMIURBAN) {
 
                 min_takehome_eligibility = true
             }
 
         } else{
-            if(net_income >= MIN_TH_RURAL) {
+            if(actualIncome >= MIN_TH_RURAL) {
 
                 min_takehome_eligibility = true
             }
@@ -262,27 +272,27 @@ class ResultActivity : AppCompatActivity() {
         return df.format(number).toDouble()
     }
 
-    private fun setResults(foir: Double, ltv: Double, isFOIRElgbl: Boolean, isTakeHomeElgbl: Boolean
-                           , emi: Double, net_income:Double, location: Int) {
+    private fun setResults(foir: Double
+                           , ltv: Double
+                           , emi: Double
+                           , net_income:Double
+                           , location: Int
+                           , totalOligations: Double) {
 
         val foirTv: TextView = findViewById(R.id.foirTv)
         val takehomeTV: TextView = findViewById(R.id.takehomeTv)
         val ltvTV: TextView = findViewById(R.id.ltvTv)
         val emiTV: TextView = findViewById(R.id.emiTv)
         val locationTV: TextView = findViewById(R.id.locationTv)
-        val eligibilityTV: TextView = findViewById(R.id.resultTv)
-        val deviationBut: ToggleButton = findViewById(R.id.deviationBut)
-        val foirLablel: TextView = findViewById(R.id.foirTvLable)
-        val takeHomeLabel: TextView = findViewById(R.id.takehomeLable)
 
-        //Store default Textview color
-        val defaultTvColor = ltvTV.getCurrentTextColor() //save original colors
-        //Setting Reults
+        //Setting Results
 
         //FOIR
         foirTv.text = foir.toString() + "%"
+
         //Take Home
-        takehomeTV.text = net_income.toString()
+        val netTakeHome = net_income - totalOligations
+        takehomeTV.text = netTakeHome.toString()
 
         //LTV
         ltvTV.text = ltv.toString() + "%"
@@ -293,6 +303,23 @@ class ResultActivity : AppCompatActivity() {
         //Location
         locationTV.text = resources.getText(TAB_TITLES[location])
 
+
+    }
+
+    private fun setLoanEligibilityResults (isFOIRElgbl: Boolean
+                                           , isTakeHomeElgbl: Boolean) {
+
+        val foirTv: TextView = findViewById(R.id.foirTv)
+        val takehomeTV: TextView = findViewById(R.id.takehomeTv)
+        val eligibilityTV: TextView = findViewById(R.id.resultTv)
+        val deviationBut: ToggleButton = findViewById(R.id.deviationBut)
+        val foirLablel: TextView = findViewById(R.id.foirTvLable)
+        val takeHomeLabel: TextView = findViewById(R.id.takehomeLable)
+        
+        //Store default Textview color
+        val ltvTV: TextView = findViewById(R.id.ltvTv)
+        val defaultTvColor = ltvTV.getCurrentTextColor() //save original colors
+
         //Eligibility
 
         //Evaluate the combination of Rule 1 & 2
@@ -302,7 +329,6 @@ class ResultActivity : AppCompatActivity() {
 
             eligibilityTV.setText(R.string.result_eligible_yes)
             eligibilityTV.setTextColor(resources.getColor(R.color.colorPrimary))
-
 
             //Reset the Text color
             foirLablel.setTextColor(defaultTvColor)
@@ -338,8 +364,6 @@ class ResultActivity : AppCompatActivity() {
             deviationBut.visibility = View.VISIBLE
 
         }
-
-
     }
 
     private fun calculateEMI(principal :Double, rate: Double, time: Double): Double {
@@ -359,5 +383,24 @@ class ResultActivity : AppCompatActivity() {
 
         foir = roundOffDecimal(foir)
         return foir
+    }
+
+    private fun getFOIRSalaryCategory(netIncome: Int): String {
+
+        val annualIncome = netIncome * 12
+        var salaryCategory = ""
+
+        if (annualIncome <= SALARY_SLAB_1) {
+
+            salaryCategory = "Less than 5 Lacs"
+        } else if((annualIncome > SALARY_SLAB_1) and (annualIncome <= SALARY_SLAB_2)) {
+
+            salaryCategory = "5 Lacs to 12 Lacs"
+        } else {
+
+            salaryCategory = "Greater than 12 Lacs"
+        }
+
+        return salaryCategory
     }
 }
