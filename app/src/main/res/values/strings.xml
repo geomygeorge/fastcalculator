@@ -32,6 +32,10 @@
     <string name="salary_slabs">FOIR Salary slabs (Lacs)</string>
     <string name="salary_slab_1">Slab 1</string>
     <string name="salary_slab_2">Slab 2</string>
+    <string name="foir_slab">FOIR slab :</string>
+    <string name="foir_deviation">FOIR Deviation :</string>
+    <string name="foir_norm">FOIR criteria :</string>
+    <string name="takehome_norm">Take home criteria :</string>
 
 
 

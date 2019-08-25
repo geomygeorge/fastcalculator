@@ -139,7 +139,8 @@ class ResultActivity : AppCompatActivity() {
             , net_income.toDouble(),
             location, totalOligations)
 
-        setLoanEligibilityResults(isFOIRElgbl, isTakeHomeElgbl)
+        setLoanEligibilityResults(isFOIRElgbl, isTakeHomeElgbl, isDeviationApplied)
+        setFOIRSlab(net_income.toInt())
 
     }
 
@@ -291,7 +292,7 @@ class ResultActivity : AppCompatActivity() {
         foirTv.text = foir.toString() + "%"
 
         //Take Home
-        val netTakeHome = net_income - totalOligations
+        val netTakeHome = roundOffDecimal(net_income - totalOligations)
         takehomeTV.text = netTakeHome.toString()
 
         //LTV
@@ -307,7 +308,8 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun setLoanEligibilityResults (isFOIRElgbl: Boolean
-                                           , isTakeHomeElgbl: Boolean) {
+                                           , isTakeHomeElgbl: Boolean
+                                           , isDeviationApplied: Boolean) {
 
         val foirTv: TextView = findViewById(R.id.foirTv)
         val takehomeTV: TextView = findViewById(R.id.takehomeTv)
@@ -315,7 +317,7 @@ class ResultActivity : AppCompatActivity() {
         val deviationBut: ToggleButton = findViewById(R.id.deviationBut)
         val foirLablel: TextView = findViewById(R.id.foirTvLable)
         val takeHomeLabel: TextView = findViewById(R.id.takehomeLable)
-        
+
         //Store default Textview color
         val ltvTV: TextView = findViewById(R.id.ltvTv)
         val defaultTvColor = ltvTV.getCurrentTextColor() //save original colors
@@ -324,7 +326,8 @@ class ResultActivity : AppCompatActivity() {
 
         //Evaluate the combination of Rule 1 & 2
 
-
+        resetFOIRAlert()
+        resetTakeHomeAlert()
         if (isFOIRElgbl and isTakeHomeElgbl) {
 
             eligibilityTV.setText(R.string.result_eligible_yes)
@@ -336,6 +339,12 @@ class ResultActivity : AppCompatActivity() {
             takeHomeLabel.setTextColor(defaultTvColor)
             takehomeTV.setTextColor(defaultTvColor)
 
+            if(isDeviationApplied) {
+
+                val calculatedFOIR = foirTv.text.toString().toInt()
+                setFOIRDeviationInfo(calculatedFOIR)
+            }
+
         } else {
 
             //FOIR condition check failed
@@ -344,6 +353,9 @@ class ResultActivity : AppCompatActivity() {
                 //Set FOIR color as RED to indicate the in-eligibility
                 foirLablel.setTextColor(resources.getColor(R.color.colorRed))
                 foirTv.setTextColor(resources.getColor(R.color.colorRed))
+
+                //Display the reason for FOIR in-eligibility
+                setFOIRAlert(isDeviationApplied)
 
             }
 
@@ -354,6 +366,8 @@ class ResultActivity : AppCompatActivity() {
                 //Set Take Home color as RED to indicate the in-eligibility
                 takeHomeLabel.setTextColor(resources.getColor(R.color.colorRed))
                 takehomeTV.setTextColor(resources.getColor(R.color.colorRed))
+
+                setTakeHomeAlert()
             }
 
             //Set in-eligibility and RED color
@@ -364,6 +378,171 @@ class ResultActivity : AppCompatActivity() {
             deviationBut.visibility = View.VISIBLE
 
         }
+    }
+
+    private fun resetTakeHomeAlert() {
+
+        var minTakeHomeLabel: TextView = findViewById(R.id.takehomeAlertLab)
+        var minTakeHomeAlert: TextView = findViewById(R.id.takehomeAlertTv)
+
+        minTakeHomeLabel.visibility = View.GONE
+
+        minTakeHomeAlert.text =  ""
+        minTakeHomeAlert.visibility = View.GONE
+    }
+
+    private fun resetFOIRAlert() {
+
+        var foirAlertLabel: TextView = findViewById(R.id.foirAlertLabel)
+        var foirAlertTV: TextView = findViewById(R.id.foirAlertTv)
+
+        foirAlertLabel.text = ""
+        foirAlertLabel.visibility = View.GONE
+
+        foirAlertTV.text = ""
+        foirAlertTV.visibility = View.GONE
+
+
+    }
+
+    private fun setTakeHomeAlert() {
+
+        var minTakeHomeLab: TextView = findViewById(R.id.takehomeAlertLab)
+        var minTakeHomeAlert: TextView = findViewById(R.id.takehomeAlertTv)
+
+        val takeHomeNorm = getTakeHomeNorm()
+
+        val takeHomeAlert = "Minimum " + takeHomeNorm.toString()
+        minTakeHomeLab.visibility = View.VISIBLE
+
+        minTakeHomeAlert.visibility = View.VISIBLE
+        minTakeHomeAlert.setText(takeHomeAlert)
+
+    }
+
+    private fun getTakeHomeNorm(): Any {
+
+        var takeHomeNorm: Int = 0
+
+        if (location == URBAN_LOC_INDEX) {
+
+            takeHomeNorm = MIN_TH_URBAN
+
+        } else if (location == SEMIURBAN_LOC_INDEX){
+
+            takeHomeNorm = MIN_TH_SEMIURBAN
+
+        } else{
+
+            takeHomeNorm = MIN_TH_RURAL
+        }
+
+        return takeHomeNorm
+
+    }
+
+    private fun setFOIRAlert(isDeviationApplied: Boolean) {
+
+        var foirAlertLabel: TextView = findViewById(R.id.foirAlertLabel)
+        var foirAlertTV: TextView = findViewById(R.id.foirAlertTv)
+
+        //Make the field visible
+        foirAlertLabel.visibility =View.VISIBLE
+
+        //Set foir norm label
+        foirAlertLabel.setText(R.string.foir_norm)
+
+        val foirNorm = getFoirNorm(isDeviationApplied)
+
+        val foirNormMsg = "Only upto " + foirNorm
+
+        foirAlertTV.setText(foirNormMsg)
+        foirAlertTV.visibility = View.VISIBLE
+
+    }
+
+    private fun setFOIRDeviationInfo(foir: Int) {
+
+        var foirAlertLabel: TextView = findViewById(R.id.foirAlertLabel)
+        var foirAlertTV: TextView = findViewById(R.id.foirAlertTv)
+
+        //Make the field visible
+        foirAlertLabel.visibility =View.VISIBLE
+        //Set the foir deviation label
+        foirAlertLabel.setText(R.string.foir_deviation)
+
+        val foirDiff = calculateFOIRDeviation(foir)
+
+        foirAlertTV.setText(foirDiff.toString() + "%")
+
+        foirAlertTV.visibility = View.VISIBLE
+
+    }
+
+    private fun calculateFOIRDeviation(foir:Int) : Int {
+
+        val annual_income =  net_income.toInt() * 12
+        var foirDiff = 0
+
+        if (annual_income <= SALARY_SLAB_1) {
+
+            foirDiff = (FOIR_SLAB_1 + FOIR_DEVIATION) - foir
+
+        } else if ((annual_income > SALARY_SLAB_1) and (annual_income <= SALARY_SLAB_2)) {
+
+            foirDiff = (FOIR_SLAB_2 + FOIR_DEVIATION) - foir
+
+        } else {
+
+            foirDiff = (FOIR_SLAB_3 + FOIR_DEVIATION) - foir
+
+        }
+
+        return foirDiff
+    }
+
+    private fun getFoirNorm(isDeviationApplied: Boolean) : Int {
+
+        val annual_income =  net_income.toInt() * 12
+        var foirPercentage = 0
+
+        if (annual_income <= SALARY_SLAB_1) {
+
+            if (isDeviationApplied) {
+
+                foirPercentage = FOIR_SLAB_1 + FOIR_DEVIATION
+            } else {
+                foirPercentage = FOIR_SLAB_1
+            }
+
+
+        } else if ((annual_income > SALARY_SLAB_1) and (annual_income <= SALARY_SLAB_2)) {
+
+            if (isDeviationApplied) {
+                foirPercentage = FOIR_SLAB_2 + FOIR_DEVIATION
+            } else {
+                foirPercentage = FOIR_SLAB_2
+            }
+
+        } else {
+
+            if (isDeviationApplied) {
+
+                foirPercentage = (FOIR_SLAB_3 + FOIR_DEVIATION)
+            } else {
+                foirPercentage = FOIR_SLAB_3
+            }
+
+        }
+
+        return foirPercentage
+    }
+
+    private fun setFOIRSlab(netIncome: Int) {
+
+        val foirSlabTv: TextView = findViewById(R.id.foirSlabTv)
+
+        foirSlabTv.text = getFOIRSalaryCategory(netIncome)
     }
 
     private fun calculateEMI(principal :Double, rate: Double, time: Double): Double {
@@ -395,12 +574,16 @@ class ResultActivity : AppCompatActivity() {
             salaryCategory = "Less than 5 Lacs"
         } else if((annualIncome > SALARY_SLAB_1) and (annualIncome <= SALARY_SLAB_2)) {
 
-            salaryCategory = "5 Lacs to 12 Lacs"
+            salaryCategory = "5 to 12 Lacs"
         } else {
 
             salaryCategory = "Greater than 12 Lacs"
         }
 
         return salaryCategory
+    }
+
+    private fun getFOIRdifference() {
+
     }
 }

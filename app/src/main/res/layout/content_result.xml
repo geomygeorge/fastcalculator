@@ -54,12 +54,35 @@
             app:layout_constraintBottom_toBottomOf="@+id/foirTvLable" android:textSize="@dimen/main_text_size"
             app:layout_constraintStart_toStartOf="@+id/guidelCenter" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"/>
+
+    <!--FOIR Alerts start-->
+    <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/foirAlertLabel" app:layout_constraintEnd_toStartOf="@+id/guidelCenter"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            android:layout_marginTop="@dimen/result_items_gap"
+            app:layout_constraintTop_toBottomOf="@+id/foirTvLable" android:textSize="@dimen/main_text_size"/>
+    <TextView
+
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/foirAlertTv"
+            app:layout_constraintTop_toTopOf="@+id/foirAlertLabel"
+            app:layout_constraintBottom_toBottomOf="@+id/foirAlertLabel" android:textSize="@dimen/main_text_size"
+            app:layout_constraintStart_toStartOf="@+id/guidelCenter" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"/>
+
+    <!--FOIR Alerts end-->
+
     <TextView
             android:text="@string/result_takehome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/takehomeLable" android:layout_marginTop="@dimen/result_items_gap"
-            app:layout_constraintTop_toBottomOf="@+id/foirTvLable"
+            app:layout_constraintTop_toBottomOf="@+id/foirAlertLabel"
             app:layout_constraintEnd_toStartOf="@+id/guidelCenter" android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp" android:textSize="@dimen/main_text_size"/>
 
@@ -73,13 +96,38 @@
             app:layout_constraintTop_toTopOf="@+id/takehomeLable"
             app:layout_constraintStart_toStartOf="@+id/guidelCenter"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:textSize="@dimen/main_text_size"/>
+
+
+    <!--Take home Alerts start-->
+    <TextView
+            android:text="@string/takehome_norm"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/takehomeAlertLab" android:layout_marginTop="@dimen/result_items_gap"
+            app:layout_constraintTop_toBottomOf="@+id/takehomeLable"
+            app:layout_constraintEnd_toStartOf="@+id/guidelCenter" android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp" android:textSize="@dimen/main_text_size"/>
+
+
+    <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/takehomeAlertTv"
+            app:layout_constraintBottom_toBottomOf="@+id/takehomeAlertLab"
+            app:layout_constraintTop_toTopOf="@+id/takehomeAlertLab"
+            app:layout_constraintStart_toStartOf="@+id/guidelCenter"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:textSize="@dimen/main_text_size"/>
+    <!--Take home Alerts end-->
+
     <TextView
             android:text="@string/result_ltvlable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ltvLabel"
             android:layout_marginTop="@dimen/result_items_gap"
-            app:layout_constraintTop_toBottomOf="@+id/takehomeLable"
+            app:layout_constraintTop_toBottomOf="@+id/takehomeAlertLab"
             app:layout_constraintEnd_toStartOf="@+id/guidelCenter" android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp" android:textSize="@dimen/main_text_size"/>
     <TextView
@@ -124,6 +172,28 @@
             app:layout_constraintBottom_toBottomOf="@+id/locationLabel"
             app:layout_constraintStart_toStartOf="@+id/guidelCenter" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" android:textSize="@dimen/main_text_size"/>
+
+    <!--FOIR slab starts-->
+
+    <TextView
+            android:text="@string/foir_slab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/foirSlabLabel"
+            android:layout_marginTop="@dimen/result_items_gap"
+            app:layout_constraintTop_toBottomOf="@+id/locationLabel" app:layout_constraintEnd_toStartOf="@+id/guidelCenter"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp" android:textSize="@dimen/main_text_size"/>
+    <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/foirSlabTv"
+            app:layout_constraintTop_toTopOf="@+id/foirSlabLabel"
+            app:layout_constraintBottom_toBottomOf="@+id/foirSlabLabel"
+            app:layout_constraintStart_toStartOf="@+id/guidelCenter" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" android:textSize="@dimen/main_text_size"/>
+
+    <!--FOIR slab end-->
     <ToggleButton
             android:checked="true"
             android:textOn="@string/result_deviation_yes"
@@ -138,6 +208,6 @@
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
             app:layout_constraintEnd_toStartOf="@+id/guidelineRight" android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp" android:layout_marginTop="@dimen/result_items_gap"
-            app:layout_constraintTop_toBottomOf="@+id/locationLabel"
+            app:layout_constraintTop_toBottomOf="@+id/foirSlabLabel"
             android:visibility="invisible"/>
 </android.support.constraint.ConstraintLayout>

@@ -14,6 +14,8 @@ import android.widget.EditText
 
 class MainActivity : AppCompatActivity() {
 
+    val isAppUnderTest = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,7 +29,13 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
 
-            resetForm()
+            if (isAppUnderTest) {
+
+                fillFormValues()
+            } else {
+                resetForm()
+            }
+
         }
     }
 
@@ -48,7 +56,24 @@ class MainActivity : AppCompatActivity() {
         netIncomeEt.setText("")
     }
 
+    //For testing only
 
+    private fun fillFormValues() {
+
+        val vehicleValEt: EditText = findViewById(R.id.vValueEt)
+        val loanAmntEt: EditText = findViewById(R.id.lAmountInp)
+        val interestRateEt: EditText = findViewById(R.id.intrEdTxt)
+        val loanTenureEt: EditText = findViewById(R.id.tenureEdTxt)
+        val obligationsEt: EditText = findViewById(R.id.obligationEdTxt)
+        val netIncomeEt: EditText = findViewById(R.id.netIncomeEt)
+
+        vehicleValEt.setText("500000")
+        loanAmntEt.setText("250000")
+        interestRateEt.setText("9.15")
+        loanTenureEt.setText("24")
+        obligationsEt.setText("15000")
+        netIncomeEt.setText("50000")
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
