@@ -328,6 +328,7 @@ class ResultActivity : AppCompatActivity() {
 
         resetFOIRAlert()
         resetTakeHomeAlert()
+        val calculatedFOIR = foirTv.text.toString().split("%")[0].toDouble()
         if (isFOIRElgbl and isTakeHomeElgbl) {
 
             eligibilityTV.setText(R.string.result_eligible_yes)
@@ -341,7 +342,6 @@ class ResultActivity : AppCompatActivity() {
 
             if(isDeviationApplied) {
 
-                val calculatedFOIR = foirTv.text.toString().toInt()
                 setFOIRDeviationInfo(calculatedFOIR)
             }
 
@@ -355,6 +355,19 @@ class ResultActivity : AppCompatActivity() {
                 foirTv.setTextColor(resources.getColor(R.color.colorRed))
 
                 //Display the reason for FOIR in-eligibility
+                setFOIRAlert(isDeviationApplied)
+
+                //Enable Deviation button
+                deviationBut.visibility = View.VISIBLE
+
+            } else {
+
+                //Set FOIR color as RED to indicate the in-eligibility
+                foirLablel.setTextColor(defaultTvColor)
+                foirTv.setTextColor(defaultTvColor)
+
+                //Display the reason for FOIR in-eligibility
+                //setFOIRDeviationInfo(calculatedFOIR)
                 setFOIRAlert(isDeviationApplied)
 
             }
@@ -374,8 +387,6 @@ class ResultActivity : AppCompatActivity() {
             eligibilityTV.setText(R.string.result_eligible_no)
             eligibilityTV.setTextColor(resources.getColor(R.color.colorRed))
 
-            //Enable Deviation button
-            deviationBut.visibility = View.VISIBLE
 
         }
     }
@@ -454,14 +465,14 @@ class ResultActivity : AppCompatActivity() {
 
         val foirNorm = getFoirNorm(isDeviationApplied)
 
-        val foirNormMsg = "Only upto " + foirNorm
+        val foirNormMsg = "Upto " + foirNorm + "%"
 
         foirAlertTV.setText(foirNormMsg)
         foirAlertTV.visibility = View.VISIBLE
 
     }
 
-    private fun setFOIRDeviationInfo(foir: Int) {
+    private fun setFOIRDeviationInfo(foir: Double) {
 
         var foirAlertLabel: TextView = findViewById(R.id.foirAlertLabel)
         var foirAlertTV: TextView = findViewById(R.id.foirAlertTv)
@@ -471,7 +482,7 @@ class ResultActivity : AppCompatActivity() {
         //Set the foir deviation label
         foirAlertLabel.setText(R.string.foir_deviation)
 
-        val foirDiff = calculateFOIRDeviation(foir)
+        val foirDiff = roundOffDecimal(calculateFOIRDeviation(foir))
 
         foirAlertTV.setText(foirDiff.toString() + "%")
 
@@ -479,22 +490,26 @@ class ResultActivity : AppCompatActivity() {
 
     }
 
-    private fun calculateFOIRDeviation(foir:Int) : Int {
+    private fun calculateFOIRDeviation(foir:Double) : Double {
 
         val annual_income =  net_income.toInt() * 12
-        var foirDiff = 0
+        var foirDiff = 0.0
 
+        //Find the differnce btwn calculated foir and maximum allowed foir per slab
         if (annual_income <= SALARY_SLAB_1) {
 
-            foirDiff = (FOIR_SLAB_1 + FOIR_DEVIATION) - foir
+            //foirDiff = FOIR_DEVIATION - ((FOIR_SLAB_1 + FOIR_DEVIATION).toDouble() - foir)
+            foirDiff = foir - FOIR_SLAB_1.toDouble()
 
         } else if ((annual_income > SALARY_SLAB_1) and (annual_income <= SALARY_SLAB_2)) {
 
-            foirDiff = (FOIR_SLAB_2 + FOIR_DEVIATION) - foir
+            //foirDiff = FOIR_DEVIATION - ((FOIR_SLAB_2 + FOIR_DEVIATION).toDouble() - foir)
+            foirDiff = foir - FOIR_SLAB_2.toDouble()
 
         } else {
 
-            foirDiff = (FOIR_SLAB_3 + FOIR_DEVIATION) - foir
+            //foirDiff = FOIR_DEVIATION - ((FOIR_SLAB_3 + FOIR_DEVIATION).toDouble() - foir)
+            foirDiff = foir - FOIR_SLAB_3.toDouble()
 
         }
 

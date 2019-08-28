@@ -24,10 +24,10 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-        val fab: FloatingActionButton = findViewById(R.id.fab)
+        //val fab: FloatingActionButton = findViewById(R.id.fab)
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
-        fab.setOnClickListener { view ->
+        /*fab.setOnClickListener { view ->
 
             if (isAppUnderTest) {
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 resetForm()
             }
 
-        }
+        }*/
     }
 
     private fun resetForm() {

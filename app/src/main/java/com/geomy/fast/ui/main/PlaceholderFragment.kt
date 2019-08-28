@@ -53,13 +53,6 @@ class PlaceholderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_main, container, false)
-        //val textView: TextView = root.findViewById(R.id.section_label)
-        pageViewModel.text.observe(this, Observer<String> {
-            //textView.text = it
-            Log.d(TAG, "onCreateView Location Index: " + it)
-
-        })
-
 
         val obligationEdtTxt: EditText = root.findViewById(R.id.obligationEdTxt)
 
@@ -126,92 +119,7 @@ class PlaceholderFragment : Fragment() {
 
 
 
-        fun validateForm(): Boolean {
 
-            val vehicleValEt: EditText = root.findViewById(R.id.vValueEt)
-            val loanAmntEt: EditText = root.findViewById(R.id.lAmountInp)
-            val interestRateEt: EditText = root.findViewById(R.id.intrEdTxt)
-            val loanTenureEt: EditText = root.findViewById(R.id.tenureEdTxt)
-            val obligationsEt: EditText = root.findViewById(R.id.obligationEdTxt)
-            val netIncomeEt: EditText = root.findViewById(R.id.netIncomeEt)
-
-            val fieldsToHighlight = mutableListOf<EditText>()
-            val fieldsToSetDefault = mutableListOf<EditText>()
-
-            if (vehicleValEt.text.toString() == "") {
-                fieldsToHighlight.add(vehicleValEt)
-            } else {
-                //vehicleValEt.setBackgroundResource(android.R.drawable.editbox_background)
-                fieldsToSetDefault.add(vehicleValEt)
-            }
-
-            if (loanAmntEt.text.toString() == "") {
-                fieldsToHighlight.add(loanAmntEt)
-            } else {
-                fieldsToSetDefault.add(loanAmntEt)
-            }
-
-            if(interestRateEt.text.toString() == "") {
-                fieldsToHighlight.add(interestRateEt)
-            } else{
-                fieldsToSetDefault.add(interestRateEt)
-            }
-
-            if(loanTenureEt.text.toString() == "") {
-                fieldsToHighlight.add(loanTenureEt)
-            } else{
-                fieldsToSetDefault.add(loanTenureEt)
-            }
-
-            if(netIncomeEt.text.toString() == "") {
-                fieldsToHighlight.add(netIncomeEt)
-            } else {
-                fieldsToSetDefault.add(netIncomeEt)
-            }
-
-
-            //Highlight the mandatory fields for user input
-            val valErrTv: TextView = root.findViewById(R.id.valErrorTV)
-            if (fieldsToHighlight.size > 0 ) {
-                // Initialize a new GradientDrawable instance
-                val gd = GradientDrawable()
-                // Set the gradient drawable background to transparent
-                gd.setColor(Color.parseColor("#00ffffff"))
-
-                // Set a border for the gradient drawable
-                gd.setStroke(3, resources.getColor(R.color.colorRed))
-
-                for (item in fieldsToHighlight) {
-
-
-                    item.setBackground(gd)
-
-                }
-
-
-                valErrTv.visibility = View.VISIBLE
-            } else {
-                valErrTv.visibility = View.INVISIBLE
-            }
-
-            // Set the Form edit text background to default
-
-            if (fieldsToSetDefault.size > 0) {
-
-                for (item in fieldsToSetDefault) {
-                    item.setBackgroundResource(android.R.drawable.edit_text)
-                }
-            }
-
-            if (fieldsToHighlight.size > 0 ) {
-                return false
-            } else{
-                return true
-            }
-
-
-
-        }
         //Collect form data for result activity
 
         val myPage: ViewPager  = activity!!.findViewById(R.id.view_pager)
@@ -221,10 +129,18 @@ class PlaceholderFragment : Fragment() {
 
         val calculateBtn: Button = root.findViewById(R.id.calculateBtn)
 
-
         calculateBtn.setOnClickListener { view ->
 
-            if(validateForm()) {
+            val isFormComplete = validateForm(root)
+
+            var isLoanAmtValid = true
+
+            if (isFormComplete) {
+
+                isLoanAmtValid = validateLoanAmount(root)
+            }
+
+            if(isFormComplete and isLoanAmtValid) {
                 activity?.let{
                     val intent = Intent (it, ResultActivity::class.java)
                     //Load form values into Intent, to access in Result activity
@@ -254,6 +170,137 @@ class PlaceholderFragment : Fragment() {
 
         return root
 
+    }
+
+    private fun validateLoanAmount(root: View): Boolean {
+
+        var isLoanAmntValid = true
+        val vehicleValEt: EditText = root.findViewById(R.id.vValueEt)
+        val loanAmntEt: EditText = root.findViewById(R.id.lAmountInp)
+
+        val vehicleVal = vehicleValEt.text.toString().toInt()
+        val loanAmt = loanAmntEt.text.toString().toInt()
+
+        val fieldsToHighlight = mutableListOf<EditText>()
+        val fieldsToSetDefault = mutableListOf<EditText>()
+
+        //Loan amount cannot be greater than vehicle value
+
+        if (loanAmt > vehicleVal) {
+            isLoanAmntValid = false
+        }
+
+        if(!isLoanAmntValid) {
+
+            fieldsToHighlight.add(loanAmntEt)
+            displayInvalidInputs(fieldsToHighlight
+                , fieldsToSetDefault
+                , getString(R.string.err_loan_amount)
+                , root)
+        } else {
+            fieldsToSetDefault.add(loanAmntEt)
+        }
+
+        return isLoanAmntValid
+
+    }
+
+    fun validateForm(root: View): Boolean {
+
+        val vehicleValEt: EditText = root.findViewById(R.id.vValueEt)
+        val loanAmntEt: EditText = root.findViewById(R.id.lAmountInp)
+        val interestRateEt: EditText = root.findViewById(R.id.intrEdTxt)
+        val loanTenureEt: EditText = root.findViewById(R.id.tenureEdTxt)
+        val obligationsEt: EditText = root.findViewById(R.id.obligationEdTxt)
+        val netIncomeEt: EditText = root.findViewById(R.id.netIncomeEt)
+
+        val fieldsToHighlight = mutableListOf<EditText>()
+        val fieldsToSetDefault = mutableListOf<EditText>()
+
+        if (vehicleValEt.text.toString() == "") {
+            fieldsToHighlight.add(vehicleValEt)
+        } else {
+            fieldsToSetDefault.add(vehicleValEt)
+        }
+
+        if (loanAmntEt.text.toString() == "") {
+            fieldsToHighlight.add(loanAmntEt)
+        } else {
+            fieldsToSetDefault.add(loanAmntEt)
+        }
+
+        if(interestRateEt.text.toString() == "") {
+            fieldsToHighlight.add(interestRateEt)
+        } else{
+            fieldsToSetDefault.add(interestRateEt)
+        }
+
+        if(loanTenureEt.text.toString() == "") {
+            fieldsToHighlight.add(loanTenureEt)
+        } else{
+            fieldsToSetDefault.add(loanTenureEt)
+        }
+
+        if(netIncomeEt.text.toString() == "") {
+            fieldsToHighlight.add(netIncomeEt)
+        } else {
+            fieldsToSetDefault.add(netIncomeEt)
+        }
+
+        if(obligationsEt.text.toString() == "") {
+            obligationsEt.setText("0")
+        }
+
+        displayInvalidInputs(fieldsToHighlight
+            , fieldsToSetDefault
+            , getString(R.string.err_mandatory_fields)
+            , root)
+
+        if (fieldsToHighlight.size > 0 ) {
+            return false
+        } else{
+            return true
+        }
+
+
+
+    }
+
+    private fun displayInvalidInputs(fieldsToHighlight: MutableList<EditText>
+                             , fieldsToSetDefault: MutableList<EditText>
+                             , errMsg: String
+                             ,root: View) {
+
+        //Highlight the mandatory fields for user input
+        val valErrTv: TextView = root.findViewById(R.id.valErrorTV)
+        if (fieldsToHighlight.size > 0 ) {
+            // Initialize a new GradientDrawable instance
+            val gd = GradientDrawable()
+            // Set the gradient drawable background to transparent
+            gd.setColor(Color.parseColor("#00ffffff"))
+
+            // Set a border for the gradient drawable
+            gd.setStroke(4, resources.getColor(R.color.colorRed))
+
+            for (item in fieldsToHighlight) {
+                item.setBackground(gd)
+            }
+
+            valErrTv.setText(errMsg)
+            valErrTv.visibility = View.VISIBLE
+        } else {
+            valErrTv.setText("")
+            valErrTv.visibility = View.GONE
+        }
+
+        // Set the Form edit text background to default
+
+        if (fieldsToSetDefault.size > 0) {
+
+            for (item in fieldsToSetDefault) {
+                item.setBackgroundResource(android.R.drawable.edit_text)
+            }
+        }
     }
 
     companion object {

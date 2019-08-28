@@ -6,7 +6,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="main_text_size">18sp</dimen>
+    <dimen name="alert_text_size">14sp</dimen>
     <dimen name="alert_dlg_left_margin">15dp</dimen>
     <dimen name="alert_dlg_right_margin">15dp</dimen>
     <dimen name="result_items_gap">30dp</dimen>
+    <dimen name="alert_items_gap">10dp</dimen>
 </resources>
