@@ -25,8 +25,8 @@
         <EditTextPreference
                 app:key="rural_takehome"
                 app:title="@string/tab_text_3"
-                app:summary="15000"
-                app:defaultValue = "15000"
+                app:summary="12000"
+                app:defaultValue = "12000"
                 inputType="number"/>
     </PreferenceCategory>
 

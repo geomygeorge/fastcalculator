@@ -15,7 +15,10 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlin.math.round
 import android.content.res.ColorStateList
-
+import android.support.v7.app.AlertDialog
+import android.widget.LinearLayout
+import kotlinx.android.synthetic.main.obligations_layout.view.*
+import java.text.ParseException
 
 
 class ResultActivity : AppCompatActivity() {
@@ -74,11 +77,37 @@ class ResultActivity : AppCompatActivity() {
         //Get preferences
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this /* Activity context */)
-        SALARY_SLAB_1 = sharedPreferences.getString("salary_slab_1", "5").toInt() * 100000 // 5 Lacs
-        SALARY_SLAB_2 = sharedPreferences.getString("salary_slab_2", "12").toInt() * 100000  // 12 Lacs
-        MIN_TH_RURAL = sharedPreferences.getString("rural_takehome", "10000").toInt()  // 10K
-        MIN_TH_SEMIURBAN = sharedPreferences.getString("semi_urban_takehome", "15000").toInt()  // 15K
-        MIN_TH_URBAN = sharedPreferences.getString("urban_takehome", "20000").toInt()  // 20K
+        try {
+            SALARY_SLAB_1 = sharedPreferences.getString("salary_slab_1", "5").toInt() * 100000 // 5 Lacs
+        } catch (e: ParseException) {
+            SALARY_SLAB_1 = 5 * 100000
+        }
+
+        try {
+            SALARY_SLAB_2 = sharedPreferences.getString("salary_slab_2", "12").toInt() * 100000  // 12 Lacs
+        } catch (e: ParseException) {
+            SALARY_SLAB_2 = 12 * 100000  // 12 Lacs
+        }
+
+        try {
+            MIN_TH_RURAL = sharedPreferences.getString("rural_takehome", "12000").toInt()  // 12K
+        } catch (e: NumberFormatException) {
+            MIN_TH_RURAL = 12000  // 12K
+        }
+
+        try {
+            MIN_TH_SEMIURBAN = sharedPreferences.getString("semi_urban_takehome", "15000").toInt()  // 15K
+        } catch (e: NumberFormatException) {
+            MIN_TH_SEMIURBAN = 15000
+        }
+
+        try {
+
+            MIN_TH_URBAN = sharedPreferences.getString("urban_takehome", "20000").toInt()  // 20K
+        } catch (e: NumberFormatException) {
+            MIN_TH_URBAN = 20000
+        }
+
 
         //Eligibility check without deviation
         calculateEligibility(false)
@@ -91,7 +120,26 @@ class ResultActivity : AppCompatActivity() {
                 calculateEligibility(false)
             } else {
                 calculateEligibility(true)
+                displayDeviationAlert()
             }
+        }
+
+    }
+
+    private fun displayDeviationAlert() {
+
+        val mDialogView = getLayoutInflater().inflate(R.layout.foir_deviation_layout, null)
+        //AlertDialogBuilder
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("FOIR deviation norms")
+        //show dialog
+        val  mAlertDialog = mBuilder.show()
+
+        mDialogView.dialogLoginBtn.setOnClickListener {
+            //dismiss dialog
+            mAlertDialog.dismiss()
+
         }
 
     }

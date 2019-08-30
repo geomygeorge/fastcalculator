@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FAST</string>
+    <string name="app_name">Fed FAST</string>
     <string name="tab_text_1">Urban</string>
     <string name="tab_text_2">Semi Urban</string>
     <string name="tab_text_3">Rural</string>
@@ -11,8 +11,8 @@
     <string name="net_income">Net monthly \n income \u20B9</string>
     <string name="veh_value">Vehicle value \u20B9</string>
     <string name="calculate">Calculate</string>
-    <string name="save_btn">Save</string>
-    <string name="cancel_btn">Cancel</string>
+    <string name="save_btn">OK</string>
+    <string name="cancel_btn">Clear</string>
     <string name="home_loan">Home loan \u20B9</string>
     <string name="personal_loan">Personal loan \u20B9</string>
     <string name="others_loan">Others \u20B9</string>
@@ -34,9 +34,11 @@
     <string name="salary_slab_2">Slab 2</string>
     <string name="foir_slab">Salary segment :</string>
     <string name="foir_deviation">FOIR Deviation :</string>
-    <string name="foir_norm">FOIR criteria :</string>
-    <string name="takehome_norm">Take home criteria :</string>
+    <string name="foir_norm">ⓘ FOIR norm :</string>
+    <string name="takehome_norm">ⓘ Take home norm :</string>
     <string name="err_mandatory_fields">Please fill mandatory fields</string>
     <string name="err_loan_amount">Loan amount should be less than vehicle value</string>
     <string name="copy_right">© Retail sales vertical, Bangalore</string>
+    <string name="foir_deviation_norm1">1. Co-applicant is mandatory</string>
+    <string name="foir_deviation_norm2">2. Funding only 100% of ex-showroom price</string>
 </resources>

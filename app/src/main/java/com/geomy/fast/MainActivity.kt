@@ -14,7 +14,7 @@ import android.widget.EditText
 
 class MainActivity : AppCompatActivity() {
 
-    val isAppUnderTest = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
