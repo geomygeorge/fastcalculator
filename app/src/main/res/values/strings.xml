@@ -5,7 +5,7 @@
     <string name="tab_text_3">Rural</string>
     <string name="loan_amount">Loan amount \u20B9</string>
     <string name="interest_rate">Interest rate %</string>
-    <string name="veh_loan_eligb">Vehicle loan eligibility</string>
+    <string name="veh_loan_eligb">Auto loan eligibility</string>
     <string name="loan_tenure">Loan tenure MM</string>
     <string name="obligations_txt">Obligations \u20B9</string>
     <string name="net_income">Net monthly \n income \u20B9</string>
@@ -39,6 +39,8 @@
     <string name="err_mandatory_fields">Please fill mandatory fields</string>
     <string name="err_loan_amount">Loan amount should be less than vehicle value</string>
     <string name="copy_right">© Retail sales vertical, Bangalore</string>
-    <string name="foir_deviation_norm1">1. Co-applicant is mandatory</string>
-    <string name="foir_deviation_norm2">2. Funding only 100% of ex-showroom price</string>
+    <string name="foir_deviation_title">Additional 10% FOIR is permitted subject to compliance of following norms</string>
+    <string name="foir_deviation_norm1">1. No deviation in minimum take home</string>
+    <string name="foir_deviation_norm2">2. Income proof</string>
+    <string name="foir_deviation_norm3">3. CIBIL score and Security margin</string>
 </resources>

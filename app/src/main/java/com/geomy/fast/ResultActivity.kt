@@ -128,11 +128,14 @@ class ResultActivity : AppCompatActivity() {
 
     private fun displayDeviationAlert() {
 
+        //Check annual income to display 24-36L popup notification
+
+
         val mDialogView = getLayoutInflater().inflate(R.layout.foir_deviation_layout, null)
         //AlertDialogBuilder
         val mBuilder = AlertDialog.Builder(this)
             .setView(mDialogView)
-            .setTitle("FOIR deviation norms")
+            .setTitle(R.string.foir_deviation_title)
         //show dialog
         val  mAlertDialog = mBuilder.show()
 
